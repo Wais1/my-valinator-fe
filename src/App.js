@@ -11,6 +11,8 @@ const ENDPOINT = 'https://valinator.herokuapp.com'
 
 // PROBLEM: this is being called *every time the menu is opene,d hence the connection is never consistent. need to figure this out. how to connect ONCe. and forget it.
 // BACKGROUND script? possibly. communicate to background script i think.
+// THE PROBLEM SERIOUSLY IS THAT ITS ONLY CONNECTED WHEN THE POPUP IS OPEN , WHICH IS THE PROBLEM. NEED TO BE CONNNECTED IN BACKGROUND OR SOMEWHERE WIHLE ITS CLOSED!!!
+// Then, add room functionality, the UI, and 'pause' from contentjs reporting clicks on a video to the APP.js 
 const socket = socketIOClient(ENDPOINT, { transports : ['websocket'] });
 console.log('We connected to the server? possibly?')
 

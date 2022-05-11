@@ -8,9 +8,17 @@
 // Youtube play button WORKS with youtube
 const playbtn = document.getElementsByClassName("ytp-play-button ytp-button")[0]
 
+// Experimental (press both buttons, not just one. diff on diff machines)
+const playbtn2 = document.getElementsByClassName("ytp-play-button ytp-button")[1]
+
 
 // Define pause button
-const pause = () => playbtn.click()
+const pause = () =>{
+  playbtn.click()
+  
+  // Experimental: pressing both buttons.
+  playbtn2.click()
+} 
 
 // To test YT play functions
 // setInterval(pause,5000);
@@ -23,7 +31,7 @@ chrome.runtime.onMessage.addListener(
                   "from a content script:" + sender.tab.url :
                   "from the extension");
       if (request.greeting === "hello") {
-          alert(request.greeting)
+          // alert(request.greeting)
           sendResponse({farewell: "goodbye"});
           //   Pause video on button click from App.js. Works!
           pause()
