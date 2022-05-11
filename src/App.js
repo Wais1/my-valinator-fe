@@ -6,8 +6,11 @@ import './App.css';
 
 // Change this to be when button is clicked only connect... then can disconnect at any time
 // Put endpoint in process.env for server
-const ENDPOINT = process.env.REACT_APP_SERVICE_URI? process.env.REACT_APP_SERVICE_URI :`http://localhost:5000`
+// const ENDPOINT = process.env.REACT_APP_SERVICE_URI? process.env.REACT_APP_SERVICE_URI :`http://localhost:5000`
+const ENDPOINT = 'https://valinator.herokuapp.com'
 
+// PROBLEM: this is being called *every time the menu is opene,d hence the connection is never consistent. need to figure this out. how to connect ONCe. and forget it.
+// BACKGROUND script? possibly. communicate to background script i think.
 const socket = socketIOClient(ENDPOINT, { transports : ['websocket'] });
 console.log('We connected to the server? possibly?')
 
@@ -45,6 +48,7 @@ function App() {
         console.log(response.farewell);
       });
     });
+    console.log('Tried to pause client in function')
   }
 
   // Pauses for client AND alerts the others.
