@@ -6,7 +6,8 @@ import './App.css';
 
 // Change this to be when button is clicked only connect... then can disconnect at any time
 // Put endpoint in process.env for server
-const ENDPOINT = `http://localhost:5000`
+const ENDPOINT = process.env.REACT_APP_SERVICE_URI? process.env.REACT_APP_SERVICE_URI :`http://localhost:5000`
+
 const socket = socketIOClient(ENDPOINT, { transports : ['websocket'] });
 console.log('We connected to the server? possibly?')
 
