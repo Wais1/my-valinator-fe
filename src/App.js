@@ -13,6 +13,8 @@ const ENDPOINT = 'https://valinator.herokuapp.com'
 // BACKGROUND script? possibly. communicate to background script i think.
 // THE PROBLEM SERIOUSLY IS THAT ITS ONLY CONNECTED WHEN THE POPUP IS OPEN , WHICH IS THE PROBLEM. NEED TO BE CONNNECTED IN BACKGROUND OR SOMEWHERE WIHLE ITS CLOSED!!!
 // Then, add room functionality, the UI, and 'pause' from contentjs reporting clicks on a video to the APP.js 
+
+// works on one client, sending message to the other. 
 const socket = socketIOClient(ENDPOINT, { transports : ['websocket'] });
 console.log('We connected to the server? possibly?')
 

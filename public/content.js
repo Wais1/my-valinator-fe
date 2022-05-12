@@ -5,17 +5,17 @@
 // Animixplay play button, that hardly works
 // var playbtn = document.getElementsByClassName("plyr__controls__item plyr__control")[1]
 
-// Youtube play button WORKS with youtube
-const playbtn = document.getElementsByClassName("ytp-play-button ytp-button")[0]
-
-// Experimental (press both buttons, not just one. diff on diff machines)
-const playbtn2 = document.getElementsByClassName("ytp-play-button ytp-button")[1]
-
 
 // Define pause button
 const pause = () =>{
-  playbtn.click()
+  // Youtube play button WORKS with youtube
+  // MAYBE ITS BEING CALLED BEFORE ITS FULLY LOADED AND THEREFORE RANDOMLY WORKS OR DOESNT
+  const playbtn = document.getElementsByClassName("ytp-play-button ytp-button")[0]
   
+  // Experimental (press both buttons, not just one. diff on diff machines)
+  const playbtn2 = document.getElementsByClassName("ytp-play-button ytp-button")[1]
+
+  playbtn.click()
   // Experimental: pressing both buttons.
   playbtn2.click()
 } 
