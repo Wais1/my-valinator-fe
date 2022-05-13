@@ -1,7 +1,7 @@
 /* global chrome */
 
 import { useEffect, useState } from 'react';
-import socketIOClient from "socket.io-client"
+import socketIOClient, { io } from "socket.io-client"
 import './App.css';
 
 // Change this to be when button is clicked only connect... then can disconnect at any time
@@ -22,6 +22,9 @@ console.log('We connected to the server? possibly?')
 function App() {
 
   const [url, setUrl] = useState('')
+  const [roomID, setRoomID] = useState('')
+  const [joinedRoom, setJoinedRoom] = useState(false)
+  const [alert, setAlert] = useState('')
 
   useEffect(() => {    
     // Get current Url
@@ -37,6 +40,13 @@ function App() {
        console.log('There is a request to pause from server')
        togglePauseClient()
      })
+
+     socket.on('roomUsers', ({ room, users }) => {
+      console.log('Got a message from socket room room users')
+      // Sets joined room to true, if gets room users response from user joining
+      setJoinedRoom(true)
+      setAlert('Room: ' + room)
+    })
   }, []);
 
   // Pauses others connected to server
@@ -61,13 +71,38 @@ function App() {
     pauseOthers()
   }
 
+  // Handle room input
+  const handleChange = (e) => setRoomID(e.target.value);
+
+  // Handles join room submission
+  const joinRoom = () => {
+    if (roomID === "") {
+      console.log('Room id is empty!')
+      //   setAlert("Please enter something", "error");
+    } else {
+      // Join room
+      console.log('Trying to join room')
+      socket.emit('joinRoom', { username:'TestUsername', roomID })
+    }
+  };
+
   return (
     <div className="App">
       <div className="container">
-        <h1>URL</h1>
-        <button onClick={pause}>Pause / Unpause </button>
-        <button onClick={pauseOthers}>Start a party / Make a room now</button>
-        <h1>Test {url}</h1>
+        { joinedRoom ? ( 
+        <>
+          <button onClick={pause}>Pause / Unpause </button>
+          <p> {alert} </p>
+        </>
+        ) : ( 
+          <>
+            <input onSubmit={(e) => {e.preventDefault();}} onChange={handleChange} placeholder='Room Id'></input>
+            <button onClick={joinRoom}>Join Room</button>
+            <button>Create a Room</button>
+          </>
+        )}
+        
+        <h1>Current URL{url}</h1>
       </div>
     </div>
   );
