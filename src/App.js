@@ -101,10 +101,11 @@ function App() {
   return (
     <div className="App">
       <div className="container">
+        <h1>Valinator</h1>
         { joinedRoom ? ( 
         <>
           <button onClick={pause}>Pause / Unpause </button>
-          <p> {alert} </p>
+          <p>Room ID: {alert} </p>
         </>
         ) : ( 
           <>
@@ -114,7 +115,7 @@ function App() {
           </>
         )}
         
-        <h1>Current URL{url}</h1>
+        <p>Current URL{url}</p>
       </div>
     </div>
   );
