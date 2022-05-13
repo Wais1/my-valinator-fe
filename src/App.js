@@ -90,7 +90,8 @@ function App() {
 
   // Handles create room submission
   const createRoom = () => {
-    const randRoomID = Math.floor(100000 + Math.random() * 900000)
+    // Generates random number and converts to string.
+    const randRoomID = Math.floor(100000 + Math.random() * 900000).toString()
     socket.emit('joinRoom', { username:'TestUsername', room: randRoomID })
     setRoomID(randRoomID)
     setAlert(randRoomID)
