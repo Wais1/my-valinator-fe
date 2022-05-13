@@ -83,7 +83,7 @@ function App() {
     } else {
       // Join room
       console.log('Trying to join room')
-      socket.emit('joinRoom', { username:'TestUsername', roomID })
+      socket.emit('joinRoom', { username:'TestUsername', room: roomID })
       setAlert(roomID)
     }
   };
@@ -91,7 +91,7 @@ function App() {
   // Handles create room submission
   const createRoom = () => {
     const randRoomID = Math.floor(100000 + Math.random() * 900000)
-    socket.emit('joinRoom', { username:'TestUsername', randRoomID })
+    socket.emit('joinRoom', { username:'TestUsername', room: randRoomID })
     setRoomID(randRoomID)
     setAlert(randRoomID)
     console.log('Trying to join room')
