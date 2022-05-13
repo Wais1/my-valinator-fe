@@ -41,11 +41,12 @@ function App() {
        togglePauseClient()
      })
 
-     socket.on('roomUsers', ({ room, users }) => {
+     socket.on('roomUsers', (msg) => {
       console.log('Got a message from socket room room users')
       // Sets joined room to true, if gets room users response from user joining
       setJoinedRoom(true)
-      setAlert('Room: ' + room)
+      // For some reason, cant access room, only users from server response. set room id from client then.
+      console.log(msg)
     })
   }, []);
 
@@ -83,7 +84,17 @@ function App() {
       // Join room
       console.log('Trying to join room')
       socket.emit('joinRoom', { username:'TestUsername', roomID })
+      setAlert(roomID)
     }
+  };
+
+  // Handles create room submission
+  const createRoom = () => {
+    const randRoomID = Math.floor(100000 + Math.random() * 900000)
+    socket.emit('joinRoom', { username:'TestUsername', randRoomID })
+    setRoomID(randRoomID)
+    setAlert(randRoomID)
+    console.log('Trying to join room')
   };
 
   return (
@@ -98,7 +109,7 @@ function App() {
           <>
             <input onSubmit={(e) => {e.preventDefault();}} onChange={handleChange} placeholder='Room Id'></input>
             <button onClick={joinRoom}>Join Room</button>
-            <button>Create a Room</button>
+            <button onClick={createRoom}>Create a Room</button>
           </>
         )}
         
