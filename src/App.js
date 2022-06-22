@@ -41,6 +41,22 @@ function App() {
        togglePauseClient()
      })
 
+     // Handle getting change video from server, tells content js to change to the link received.
+     socket.on('changeVideo', (link) => {
+       console.log('There is a request to change videos from the server with this link' + link)
+      //  changeVideoReceived(link)
+      // Send notif to change link in content.js and send message to socket.io
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {greeting: "changeVidReceived", vidLink: link}, function(response) {
+          console.log(response.farewell);
+
+          // Receives link to change others, then changes link for everyone
+          changeVideoOthers(response.farewell)
+        });
+      });
+
+     })
+
      socket.on('roomUsers', (msg) => {
       console.log('Got a message from socket room room users')
       // Sets joined room to true, if gets room users response from user joining
@@ -55,6 +71,14 @@ function App() {
     socket.emit('pause', 'test');
   }
 
+
+  // Changes video for others using Socket io
+  const changeVideoOthers = (link) => {
+    console.log('THE LINK we sending to others:')
+    console.log(link)
+    socket.emit('changeVideo', link)
+  }
+
   // Pauses on client. Communicate with content.js. 
   const togglePauseClient = () => {
     // Send pause notif to server to send to other clients
@@ -64,6 +88,20 @@ function App() {
       });
     });
     console.log('Tried to pause client in function')
+  }
+
+  // Changes video to first recommendation link. Communicate with content.js. 
+  const changeVideo = () => {
+    // Send notif to change link in content.js and send message to socket.io
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {greeting: "changeVid"}, function(response) {
+        console.log(response.farewell);
+
+        // Receives link to change others, then changes link for everyone
+        changeVideoOthers(response.farewell)
+      });
+    });
+    console.log('Tried to change video in function')
   }
 
   // Pauses for client AND alerts the others.
@@ -105,6 +143,7 @@ function App() {
         { joinedRoom ? ( 
         <>
           <button onClick={pause}>Pause / Unpause </button>
+          <button onClick={changeVideo}>Change Video</button>
           <p>Room ID: {alert} </p>
         </>
         ) : ( 
